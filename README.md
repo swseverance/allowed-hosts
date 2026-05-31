@@ -1,59 +1,71 @@
-# AllowedHosts
+## Installation
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.8.
+### 1. Install Node.js
 
-## Development server
+This project requires **Node.js 22 LTS** (minimum Node 20.9).
 
-To start a local development server, run:
-
-```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+The recommended way is via [nvm](https://github.com/nvm-sh/nvm):
 
 ```bash
-ng generate component component-name
+nvm install 22
+nvm use 22
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Or download directly from [nodejs.org](https://nodejs.org).
+
+### 2. Install dependencies
 
 ```bash
-ng generate --help
+npm install
 ```
 
-## Building
+## Deployment
 
-To build the project run:
+Reproducing the issue requires deploying to Firebase App Hosting.
+
+### Install the Firebase CLI
 
 ```bash
-ng build
+npm install -g firebase-tools
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+### Authenticate
 
 ```bash
-ng test
+firebase login
 ```
 
-## Running end-to-end tests
+### Configure your Firebase project
 
-For end-to-end (e2e) testing, run:
+Update `.firebaserc` to point to your own Firebase project:
+
+```json
+{
+  "projects": {
+    "default": "your-firebase-project-id"
+  }
+}
+```
+
+### Create an App Hosting backend
 
 ```bash
-ng e2e
+firebase apphosting:backends:create
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Then update `firebase.json` with the backend ID that was created:
 
-## Additional Resources
+```json
+{
+  "apphosting": {
+    "backendId": "your-backend-id",
+    ...
+  }
+}
+```
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+### Deploy
+
+```bash
+firebase deploy
+```
